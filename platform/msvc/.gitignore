@@ -1,0 +1,5 @@
+easyvm/
+projects/*
+
+!projects/*.vcxproj
+!projects/*.vcxproj.filters
