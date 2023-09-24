@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 namespace evm
 {
 
@@ -9,10 +11,17 @@ enum class ValueType
 	NUMBER,
 	STRING,
 
-	USER_DATA,
+	HANDLE,
+};
 
-	// RAW_PTR
-	// SMART_PTR
+template<typename T>
+struct Handle
+{
+	Handle() {}
+	Handle(const std::shared_ptr<T>& o) : obj(o) {}
+	~Handle() {}
+
+	std::shared_ptr<T> obj = nullptr;
 };
 
 struct Value
@@ -23,8 +32,7 @@ struct Value
 		bool   boolean;
 		double number;
 		char*  string;
-
-		void*  user_data;
+		void*  handle;
 	} as;
 };
 
