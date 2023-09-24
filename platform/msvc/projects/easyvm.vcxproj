@@ -22,10 +22,12 @@
     <ClInclude Include="..\..\..\include\easyvm\OpCodes.h" />
     <ClInclude Include="..\..\..\include\easyvm\Value.h" />
     <ClInclude Include="..\..\..\include\easyvm\VM.h" />
+    <ClInclude Include="..\..\..\include\easyvm\VMHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\OpCodes.cpp" />
     <ClCompile Include="..\..\..\source\VM.cpp" />
+    <ClCompile Include="..\..\..\source\VMHelper.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>easyvm</ProjectName>

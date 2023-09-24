@@ -48,16 +48,6 @@ private:
 	static void StringStore(VM* vm);
 	static void StringPrint(VM* vm);
 
-private:
-	template<typename T>
-	static T ReadData(evm::VM* vm);
-
-	static bool GetBoolReg(evm::VM* vm, int reg);
-	static double GetNumberReg(evm::VM* vm, int reg);
-	static char* GetStringReg(evm::VM* vm, int reg);
-
-	static void FreeReg(VM* vm, uint8_t reg);
-
 }; // OpCodeImpl
 
 }

@@ -9,6 +9,9 @@ namespace evm
 
 #define REGISTER_COUNT 10
 
+class VM;
+typedef void OpcodeImpl(VM* vm);
+
 class VM
 {
 public:
@@ -16,14 +19,20 @@ public:
 
 	void Run();
 
-	bool Load(int reg, Value& val);
+	bool GetRegister(int reg, Value& val);
+	void SetRegister(int reg, const Value& val);
 
-private:
-	void InitOpcodes();
-
+	void NextInst();
 	unsigned char NextByte();
 
 	void Error(const char* msg);
+
+	void RegistOperator(int opcode, OpcodeImpl* func);
+
+	void Stop();
+	
+private:
+	void InitOpcodes();
 
 private:
 	std::array<Value, REGISTER_COUNT> m_registers;
@@ -33,12 +42,9 @@ private:
 	const char* m_code = nullptr;
 	size_t m_size = 0;
 
-	typedef void OpcodeImpl(VM* vm);
 	OpcodeImpl* m_opcodes[256];
 
 	bool m_running = true;
-
-	friend class OpCodeImpl;
 
 }; // VM
 

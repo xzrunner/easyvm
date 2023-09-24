@@ -1,8 +1,33 @@
 #include "easyvm/VM.h"
 #include "easyvm/OpCodes.h"
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
+
+#define CHECK_REGISTER_BOUNDS(reg) \
+	assert(reg >= 0 && reg < REGISTER_COUNT);
+
+namespace
+{
+
+void FreeReg(evm::VM* vm, uint8_t reg)
+{
+    evm::Value val;
+	if (!vm->GetRegister(reg, val)) {
+		vm->Error("Error reg.");
+		return;
+	}
+
+	if (val.type == evm::ValueType::STRING && val.as.string) {
+		delete(val.as.string);
+	} else if (val.type == evm::ValueType::HANDLE && val.as.handle) {
+		delete(val.as.handle);
+	}
+}
+
+}
 
 namespace evm
 {
@@ -39,20 +64,35 @@ void VM::Run()
     }
 }
 
-bool VM::Load(int reg, Value& val)
+bool VM::GetRegister(int reg, Value& val)
 {
-    if (reg < 0 || reg > REGISTER_COUNT) {
+    CHECK_REGISTER_BOUNDS(reg);
+
+    if (reg < 0 || reg > REGISTER_COUNT) 
+    {
         return false;
     }
-
-    val = m_registers[reg];
-
-    return true;
+    else
+    {
+        val = m_registers[reg];
+        return true;
+    }
 }
 
-void VM::InitOpcodes()
+void VM::SetRegister(int reg, const Value& val)
 {
-    OpCodeImpl::OpCodeInit(this);
+    CHECK_REGISTER_BOUNDS(reg);
+
+    if (reg >= 0 && reg < REGISTER_COUNT) 
+    {
+        FreeReg(this, reg);
+        m_registers[reg] = val;
+    }
+}
+
+void VM::NextInst()
+{
+    m_ip++;
 }
 
 unsigned char VM::NextByte()
@@ -70,6 +110,21 @@ void VM::Error(const char* msg)
 {
     fprintf(stderr, "%s\n", msg);
     exit(1);
+}
+
+void VM::RegistOperator(int opcode, OpcodeImpl* func)
+{
+    m_opcodes[opcode] = func;
+}
+
+void VM::Stop()
+{
+    m_running = false;
+}
+
+void VM::InitOpcodes()
+{
+    OpCodeImpl::OpCodeInit(this);
 }
 
 }
