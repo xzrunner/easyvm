@@ -2,6 +2,8 @@
 
 #include <stdint.h>
 
+#include <memory>
+
 namespace evm
 {
 
@@ -28,6 +30,23 @@ public:
 	static bool GetBoolReg(VM* vm, int reg);
 	static double GetNumberReg(VM* vm, int reg);
 	static char* GetStringReg(VM* vm, int reg);
+
+	template<typename T>
+	static std::shared_ptr<T> GetHandler(evm::VM* vm, int reg)
+	{
+		evm::Value val;
+		if (!vm->GetRegister(reg, val))
+		{
+			return nullptr;
+		}
+
+		if (val.type != evm::ValueType::HANDLE) {
+			vm->Error("The register doesn't contain a handler.");
+			return nullptr;
+		}
+
+		return static_cast<evm::Handle<T>*>(val.as.handle)->obj;
+	}
 
 }; // VMHelper
 
