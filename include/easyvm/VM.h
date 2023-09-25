@@ -21,6 +21,7 @@ public:
 
 	bool GetRegister(int reg, Value& val);
 	void SetRegister(int reg, const Value& val);
+	bool MoveRegister(int reg, Value& val);
 
 	void NextInst();
 	unsigned char NextByte();

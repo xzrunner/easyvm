@@ -90,6 +90,28 @@ void VM::SetRegister(int reg, const Value& val)
     }
 }
 
+bool VM::MoveRegister(int reg, Value& val)
+{
+    CHECK_REGISTER_BOUNDS(reg);
+
+    if (reg < 0 || reg > REGISTER_COUNT)
+    {
+        return false;
+    }
+    else
+    {
+        val = m_registers[reg];
+
+        if (m_registers[reg].type == ValueType::STRING) {
+            m_registers[reg].as.string = nullptr;
+        } else if (m_registers[reg].type == ValueType::HANDLE) {
+            m_registers[reg].as.handle = nullptr;
+        }
+
+        return true;
+    }
+}
+
 void VM::NextInst()
 {
     m_ip++;
