@@ -20,10 +20,15 @@ void FreeReg(evm::VM* vm, uint8_t reg)
 		return;
 	}
 
-	if (val.type == evm::ValueType::STRING && val.as.string) {
+	if (val.type == evm::ValueType::STRING && val.as.string) 
+    {
 		delete(val.as.string);
-	} else if (val.type == evm::ValueType::HANDLE && val.as.handle) {
+        val.as.string = nullptr;
+	} 
+    else if (val.type == evm::ValueType::HANDLE && val.as.handle) 
+    {
 		delete(val.as.handle);
+        val.as.handle = nullptr;
 	}
 }
 
