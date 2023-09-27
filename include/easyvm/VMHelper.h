@@ -27,12 +27,12 @@ public:
 		return ret;
 	}
 
-	static bool GetBoolReg(VM* vm, int reg);
-	static double GetNumberReg(VM* vm, int reg);
-	static char* GetStringReg(VM* vm, int reg);
+	static bool   GetRegBool(VM* vm, int reg);
+	static double GetRegNumber(VM* vm, int reg);
+	static char*  GetRegString(VM* vm, int reg);
 
 	template<typename T>
-	static std::shared_ptr<T> GetHandler(evm::VM* vm, int reg)
+	static std::shared_ptr<T> GetRegHandler(evm::VM* vm, int reg)
 	{
 		evm::Value val;
 		if (!vm->GetRegister(reg, val))

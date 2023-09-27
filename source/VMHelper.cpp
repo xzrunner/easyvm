@@ -4,7 +4,7 @@
 namespace evm
 {
 
-bool VMHelper::GetBoolReg(VM* vm, int reg)
+bool VMHelper::GetRegBool(VM* vm, int reg)
 {
 	Value val;
 	if (!vm->GetRegister(reg, val)) {
@@ -20,7 +20,7 @@ bool VMHelper::GetBoolReg(VM* vm, int reg)
 	return val.as.boolean;
 }
 
-double VMHelper::GetNumberReg(VM* vm, int reg)
+double VMHelper::GetRegNumber(VM* vm, int reg)
 {
 	Value val;
 	if (!vm->GetRegister(reg, val)) {
@@ -36,7 +36,7 @@ double VMHelper::GetNumberReg(VM* vm, int reg)
 	return val.as.number;
 }
 
-char* VMHelper::GetStringReg(VM* vm, int reg)
+char* VMHelper::GetRegString(VM* vm, int reg)
 {
 	Value val;
 	if (!vm->GetRegister(reg, val)) {

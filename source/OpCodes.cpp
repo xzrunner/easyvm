@@ -12,8 +12,8 @@ void OpCodeImpl::func(VM* vm)								\
 	uint8_t reg_src1 = vm->NextByte();						\
 	uint8_t reg_src2 = vm->NextByte();						\
 															\
-	double src1 = VMHelper::GetNumberReg(vm, reg_src1);		\
-	double src2 = VMHelper::GetNumberReg(vm, reg_src2);		\
+	double src1 = VMHelper::GetRegNumber(vm, reg_src1);		\
+	double src2 = VMHelper::GetRegNumber(vm, reg_src2);		\
 															\
 	Value val;                                              \
 	val.type = ValueType::NUMBER;                           \
@@ -64,7 +64,7 @@ void OpCodeImpl::BoolStore(VM* vm)
 void OpCodeImpl::BoolPrint(VM* vm)
 {
 	uint8_t reg = vm->NextByte();
-	bool val = VMHelper::GetBoolReg(vm, reg);
+	bool val = VMHelper::GetRegBool(vm, reg);
 	printf("%d", val);
 	vm->NextInst();
 }
@@ -83,7 +83,7 @@ void OpCodeImpl::NumberStore(VM* vm)
 void OpCodeImpl::NumberPrint(VM* vm)
 {
 	uint8_t reg = vm->NextByte();
-	double val = VMHelper::GetNumberReg(vm, reg);
+	double val = VMHelper::GetRegNumber(vm, reg);
 	printf("%f", val);
 	vm->NextInst();
 }
@@ -118,7 +118,7 @@ void OpCodeImpl::StringStore(VM* vm)
 void OpCodeImpl::StringPrint(VM* vm)
 {
 	uint8_t reg = vm->NextByte();
-	const char* val = VMHelper::GetStringReg(vm, reg);
+	const char* val = VMHelper::GetRegString(vm, reg);
 	printf("%s", val);
 	vm->NextInst();
 }
