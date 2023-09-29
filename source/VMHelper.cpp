@@ -52,4 +52,20 @@ char* VMHelper::GetRegString(VM* vm, int reg)
 	return val.as.string;
 }
 
+std::shared_ptr<std::vector<Value>> VMHelper::GetRegArray(VM* vm, int reg)
+{
+	Value val;
+	if (!vm->GetRegister(reg, val)) {
+		vm->Error("Error reg.");
+		return nullptr;
+	}
+
+	if (val.type != ValueType::ARRAY) {
+		vm->Error("The register doesn't contain a array.");
+		return nullptr;
+	}
+
+	return static_cast<evm::Handle<std::vector<Value>>*>(val.as.handle)->obj;
+}
+
 }

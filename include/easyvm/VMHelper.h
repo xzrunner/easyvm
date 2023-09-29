@@ -3,11 +3,13 @@
 #include <stdint.h>
 
 #include <memory>
+#include <vector>
 
 namespace evm
 {
 
 class VM;
+struct Value;
 
 class VMHelper
 {
@@ -47,6 +49,8 @@ public:
 
 		return static_cast<evm::Handle<T>*>(val.as.handle)->obj;
 	}
+
+	static std::shared_ptr<std::vector<Value>> GetRegArray(VM* vm, int reg);
 
 }; // VMHelper
 

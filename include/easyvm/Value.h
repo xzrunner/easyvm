@@ -10,7 +10,10 @@ enum class ValueType
 	BOOLEAN,
 	NUMBER,
 	STRING,
+
 	HANDLE,
+
+	ARRAY,
 };
 
 template<typename T>
