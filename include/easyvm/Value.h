@@ -7,6 +7,8 @@ namespace evm
 
 enum class ValueType
 {
+	NIL,
+
 	BOOLEAN,
 	NUMBER,
 	STRING,
@@ -28,7 +30,7 @@ struct Handle
 
 struct Value
 {
-	ValueType type;
+	ValueType type = ValueType::NIL;
 	union
 	{
 		bool   boolean;
