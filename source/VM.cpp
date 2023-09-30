@@ -25,7 +25,9 @@ void FreeReg(evm::VM* vm, uint8_t reg)
 		delete(val.as.string);
         val.as.string = nullptr;
 	} 
-    else if (val.type == evm::ValueType::HANDLE && val.as.handle) 
+    else if ((val.type == evm::ValueType::HANDLE 
+           || val.type == evm::ValueType::ARRAY) 
+           && val.as.handle)
     {
 		delete(val.as.handle);
         val.as.handle = nullptr;
@@ -109,7 +111,8 @@ bool VM::MoveRegister(int reg, Value& val)
 
         if (m_registers[reg].type == ValueType::STRING) {
             m_registers[reg].as.string = nullptr;
-        } else if (m_registers[reg].type == ValueType::HANDLE) {
+        } else if (m_registers[reg].type == ValueType::HANDLE || 
+                   m_registers[reg].type == ValueType::ARRAY) {
             m_registers[reg].as.handle = nullptr;
         }
 
