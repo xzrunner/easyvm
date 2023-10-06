@@ -65,7 +65,16 @@ std::shared_ptr<std::vector<Value>> VMHelper::GetRegArray(VM* vm, int reg)
 		return nullptr;
 	}
 
-	return static_cast<evm::Handle<std::vector<Value>>*>(val.as.handle)->obj;
+	return GetValArray(val);
+}
+
+std::shared_ptr<std::vector<Value>> VMHelper::GetValArray(const Value& val)
+{
+	if (val.type == ValueType::ARRAY) {
+		return static_cast<evm::Handle<std::vector<Value>>*>(val.as.handle)->obj;
+	} else {
+		return nullptr;
+	}
 }
 
 }

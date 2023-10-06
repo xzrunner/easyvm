@@ -51,6 +51,7 @@ public:
 	}
 
 	static std::shared_ptr<std::vector<Value>> GetRegArray(VM* vm, int reg);
+	static std::shared_ptr<std::vector<Value>> GetValArray(const Value& val);
 
 }; // VMHelper
 
