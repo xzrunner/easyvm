@@ -34,6 +34,7 @@ void OpCodeImpl::OpCodeInit(VM* vm)
 
 	vm->RegistOperator(OP_NUMBER_STORE, NumberStore);
 	vm->RegistOperator(OP_NUMBER_PRINT, NumberPrint);
+	vm->RegistOperator(OP_NUMBER_NEGATE, NumberNegate);
 
 	vm->RegistOperator(OP_ADD, Add);
 	vm->RegistOperator(OP_SUB, Sub);
@@ -86,6 +87,20 @@ void OpCodeImpl::NumberPrint(VM* vm)
 	double val = VMHelper::GetRegNumber(vm, reg);
 	printf("%f", val);
 	vm->NextInst();
+}
+
+void OpCodeImpl::NumberNegate(VM* vm)
+{
+	uint8_t r_dst = vm->NextByte();
+
+	uint8_t r_src = vm->NextByte();
+	double num = VMHelper::GetRegNumber(vm, r_src);
+
+	Value val;
+	val.type = ValueType::NUMBER;
+	val.as.number = -num;
+
+	vm->SetRegister(r_dst, val);
 }
 
 BINARY_MATH_OPERATION(Add, +)

@@ -14,6 +14,7 @@ enum OpCode
 
 	OP_NUMBER_STORE,
 	OP_NUMBER_PRINT,
+	OP_NUMBER_NEGATE,
 
 	OP_ADD,
 	OP_SUB,
@@ -39,6 +40,7 @@ private:
 
 	static void NumberStore(VM* vm);
 	static void NumberPrint(VM* vm);
+	static void NumberNegate(VM* vm);
 
 	static void Add(VM* vm);
 	static void Sub(VM* vm);
