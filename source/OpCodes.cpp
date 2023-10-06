@@ -8,18 +8,18 @@
 #define BINARY_MATH_OPERATION(func, op)						\
 void OpCodeImpl::func(VM* vm)								\
 {															\
-	uint8_t reg_dst = vm->NextByte();						\
-	uint8_t reg_src1 = vm->NextByte();						\
-	uint8_t reg_src2 = vm->NextByte();						\
+	uint8_t r_dst  = vm->NextByte();						\
+	uint8_t r_src1 = vm->NextByte();						\
+	uint8_t r_src2 = vm->NextByte();						\
 															\
-	double src1 = VMHelper::GetRegNumber(vm, reg_src1);		\
-	double src2 = VMHelper::GetRegNumber(vm, reg_src2);		\
+	double src1 = VMHelper::GetRegNumber(vm, r_src1);		\
+	double src2 = VMHelper::GetRegNumber(vm, r_src2);		\
 															\
 	Value val;                                              \
 	val.type = ValueType::NUMBER;                           \
 	val.as.number = src1 op src2;                           \
                                                             \
-	vm->SetRegister(reg_dst, val);                          \
+	vm->SetRegister(r_dst, val);							\
 }
 
 namespace evm
