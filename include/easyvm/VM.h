@@ -7,7 +7,7 @@
 namespace evm
 {
 
-#define REGISTER_COUNT 10
+#define REGISTER_COUNT 16
 
 class VM;
 typedef void OpcodeImpl(VM* vm);
