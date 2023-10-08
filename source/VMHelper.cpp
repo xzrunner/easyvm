@@ -25,12 +25,12 @@ double VMHelper::GetRegNumber(VM* vm, int reg)
 	Value val;
 	if (!vm->GetRegister(reg, val)) {
 		vm->Error("Error reg.");
-		return false;
+		return 0.0;
 	}
 
 	if (val.type != ValueType::NUMBER) {
 		vm->Error("The register doesn't contain a number.");
-		return false;
+		return 0.0;
 	}
 
 	return val.as.number;
@@ -41,12 +41,12 @@ char* VMHelper::GetRegString(VM* vm, int reg)
 	Value val;
 	if (!vm->GetRegister(reg, val)) {
 		vm->Error("Error reg.");
-		return false;
+		return nullptr;
 	}
 
 	if (val.type != ValueType::STRING) {
 		vm->Error("The register doesn't contain a string.");
-		return false;
+		return nullptr;
 	}
 
 	return val.as.string;
