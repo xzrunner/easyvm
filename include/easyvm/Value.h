@@ -2,6 +2,10 @@
 
 #include <memory>
 
+#ifdef _DEBUG
+#include <string>
+#endif // _DEBUG
+
 namespace evm
 {
 
@@ -38,6 +42,10 @@ struct Value
 		char*  string;
 		void*  handle;
 	} as;
+
+#ifdef _DEBUG
+	std::string handle_type;
+#endif // _DEBUG
 };
 
 }
