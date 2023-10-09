@@ -48,7 +48,6 @@ void OpCodeImpl::OpCodeInit(VM* vm)
 void OpCodeImpl::Exit(VM* vm)
 {
 	vm->Stop();
-	vm->NextInst();
 }
 
 void OpCodeImpl::BoolStore(VM* vm)
@@ -67,7 +66,6 @@ void OpCodeImpl::BoolPrint(VM* vm)
 	uint8_t reg = vm->NextByte();
 	bool val = VMHelper::GetRegBool(vm, reg);
 	printf("%d", val);
-	vm->NextInst();
 }
 
 void OpCodeImpl::NumberStore(VM* vm)
@@ -86,7 +84,6 @@ void OpCodeImpl::NumberPrint(VM* vm)
 	uint8_t reg = vm->NextByte();
 	double val = VMHelper::GetRegNumber(vm, reg);
 	printf("%f", val);
-	vm->NextInst();
 }
 
 void OpCodeImpl::NumberNegate(VM* vm)
@@ -135,7 +132,6 @@ void OpCodeImpl::StringPrint(VM* vm)
 	uint8_t reg = vm->NextByte();
 	const char* val = VMHelper::GetRegString(vm, reg);
 	printf("%s", val);
-	vm->NextInst();
 }
 
 }
