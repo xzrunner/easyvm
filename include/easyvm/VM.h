@@ -25,13 +25,14 @@ public:
 
 	void NextInst();
 	unsigned char NextByte();
+	void JumpTo(unsigned int ip);
 
 	void Error(const char* msg);
 
 	void RegistOperator(int opcode, OpcodeImpl* func);
 
 	void Stop();
-	
+
 private:
 	void InitOpcodes();
 

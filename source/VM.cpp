@@ -136,6 +136,11 @@ unsigned char VM::NextByte()
     return m_code[m_ip];
 }
 
+void VM::JumpTo(unsigned int ip) 
+{ 
+    m_ip = ip; 
+}
+
 void VM::Error(const char* msg)
 {
     fprintf(stderr, "%s\n", msg);

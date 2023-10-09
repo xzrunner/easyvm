@@ -21,6 +21,13 @@ enum OpCode
 	OP_MUL,
 	OP_DIV,
 
+	OP_INC,
+	OP_DEC,
+
+	OP_CMP,
+
+	OP_JUMP_IF_NOT,
+
 	OP_STRING_STORE,
 	OP_STRING_PRINT,
 };
@@ -46,6 +53,13 @@ private:
 	static void Sub(VM* vm);
 	static void Mul(VM* vm);
 	static void Div(VM* vm);
+
+	static void Inc(VM* vm);
+	static void Dec(VM* vm);
+
+	static void Cmp(VM* vm);
+
+	static void JumpIfNot(VM* vm);
 
 	static void StringStore(VM* vm);
 	static void StringPrint(VM* vm);

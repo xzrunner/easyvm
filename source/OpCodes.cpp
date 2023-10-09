@@ -41,6 +41,12 @@ void OpCodeImpl::OpCodeInit(VM* vm)
 	vm->RegistOperator(OP_MUL, Mul);
 	vm->RegistOperator(OP_DIV, Div);
 
+	vm->RegistOperator(OP_INC, Inc);
+	vm->RegistOperator(OP_DEC, Dec);
+
+	vm->RegistOperator(OP_CMP, Cmp);
+	vm->RegistOperator(OP_JUMP_IF_NOT, JumpIfNot);
+
 	vm->RegistOperator(OP_STRING_STORE, StringStore);
 	vm->RegistOperator(OP_STRING_PRINT, StringPrint);
 }
@@ -104,6 +110,59 @@ BINARY_MATH_OPERATION(Add, +)
 BINARY_MATH_OPERATION(Sub, -)
 BINARY_MATH_OPERATION(Mul, *)
 BINARY_MATH_OPERATION(Div, /)
+
+void OpCodeImpl::Inc(VM* vm)
+{
+	uint8_t r_num = vm->NextByte();
+
+	double num = VMHelper::GetRegNumber(vm, r_num);
+
+	Value val;
+	val.type = ValueType::NUMBER;
+	val.as.number = num + 1;
+
+	vm->SetRegister(r_num, val);
+}
+
+void OpCodeImpl::Dec(VM* vm)
+{
+	uint8_t r_num = vm->NextByte();
+
+	double num = VMHelper::GetRegNumber(vm, r_num);
+
+	Value val;
+	val.type = ValueType::NUMBER;
+	val.as.number = num - 1;
+
+	vm->SetRegister(r_num, val);
+}
+
+void OpCodeImpl::Cmp(VM* vm)
+{
+	uint8_t r_dst = vm->NextByte();
+	uint8_t r_src1 = vm->NextByte();
+	uint8_t r_src2 = vm->NextByte();
+
+	double src1 = VMHelper::GetRegNumber(vm, r_src1);
+	double src2 = VMHelper::GetRegNumber(vm, r_src2);
+
+	Value val;
+	val.type = ValueType::BOOLEAN;
+	val.as.boolean = src1 == src2;
+
+	vm->SetRegister(r_dst, val);
+}
+
+void OpCodeImpl::JumpIfNot(VM* vm)
+{
+	uint32_t offset = VMHelper::ReadData<uint32_t>(vm);
+	uint8_t r_bool = vm->NextByte();
+
+	bool b = VMHelper::GetRegBool(vm, r_bool);
+	if (!b) {
+		vm->JumpTo(offset - 1);
+	}
+}
 
 void OpCodeImpl::StringStore(VM* vm)
 {
