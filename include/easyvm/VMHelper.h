@@ -42,16 +42,13 @@ public:
 			return nullptr;
 		}
 
-		if (val.type != evm::ValueType::HANDLE) {
+		if (val.type != evm::ValueType::V_HANDLE) {
 			vm->Error("The register doesn't contain a handler.");
 			return nullptr;
 		}
 
 		return static_cast<evm::Handle<T>*>(val.as.handle)->obj;
 	}
-
-	static std::shared_ptr<std::vector<Value>> GetRegArray(VM* vm, int reg);
-	static std::shared_ptr<std::vector<Value>> GetValArray(const Value& val);
 
 }; // VMHelper
 

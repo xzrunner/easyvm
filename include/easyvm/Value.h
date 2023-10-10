@@ -9,17 +9,17 @@
 namespace evm
 {
 
-enum class ValueType
+enum ValueType
 {
-	NIL,
+	V_NIL,
 
-	BOOLEAN,
-	NUMBER,
-	STRING,
+	V_BOOLEAN,
+	V_NUMBER,
+	V_STRING,
 
-	HANDLE,
+	V_HANDLE = 16,
 
-	ARRAY,
+//	ARRAY,
 };
 
 template<typename T>
@@ -34,7 +34,7 @@ struct Handle
 
 struct Value
 {
-	ValueType type = ValueType::NIL;
+	int type = ValueType::V_NIL;
 	union
 	{
 		bool   boolean;

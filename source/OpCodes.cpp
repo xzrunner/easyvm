@@ -16,7 +16,7 @@ void OpCodeImpl::func(VM* vm)								\
 	double src2 = VMHelper::GetRegNumber(vm, r_src2);		\
 															\
 	Value val;                                              \
-	val.type = ValueType::NUMBER;                           \
+	val.type = ValueType::V_NUMBER;                           \
 	val.as.number = src1 op src2;                           \
                                                             \
 	vm->SetRegister(r_dst, val);							\
@@ -61,7 +61,7 @@ void OpCodeImpl::BoolStore(VM* vm)
 	uint8_t reg = vm->NextByte();
 
 	Value val;
-	val.type = ValueType::BOOLEAN;
+	val.type = ValueType::V_BOOLEAN;
 	val.as.boolean = VMHelper::ReadData<bool>(vm);
 
 	vm->SetRegister(reg, val);
@@ -79,7 +79,7 @@ void OpCodeImpl::NumberStore(VM* vm)
 	uint8_t reg = vm->NextByte();
 
 	Value val;
-	val.type = ValueType::NUMBER;
+	val.type = ValueType::V_NUMBER;
 	val.as.number = VMHelper::ReadData<double>(vm);
 
 	vm->SetRegister(reg, val);
@@ -100,7 +100,7 @@ void OpCodeImpl::NumberNegate(VM* vm)
 	double num = VMHelper::GetRegNumber(vm, r_src);
 
 	Value val;
-	val.type = ValueType::NUMBER;
+	val.type = ValueType::V_NUMBER;
 	val.as.number = -num;
 
 	vm->SetRegister(r_dst, val);
@@ -118,7 +118,7 @@ void OpCodeImpl::Inc(VM* vm)
 	double num = VMHelper::GetRegNumber(vm, r_num);
 
 	Value val;
-	val.type = ValueType::NUMBER;
+	val.type = ValueType::V_NUMBER;
 	val.as.number = num + 1;
 
 	vm->SetRegister(r_num, val);
@@ -131,7 +131,7 @@ void OpCodeImpl::Dec(VM* vm)
 	double num = VMHelper::GetRegNumber(vm, r_num);
 
 	Value val;
-	val.type = ValueType::NUMBER;
+	val.type = ValueType::V_NUMBER;
 	val.as.number = num - 1;
 
 	vm->SetRegister(r_num, val);
@@ -147,7 +147,7 @@ void OpCodeImpl::Cmp(VM* vm)
 	double src2 = VMHelper::GetRegNumber(vm, r_src2);
 
 	Value val;
-	val.type = ValueType::BOOLEAN;
+	val.type = ValueType::V_BOOLEAN;
 	val.as.boolean = src1 == src2;
 
 	vm->SetRegister(r_dst, val);
@@ -180,7 +180,7 @@ void OpCodeImpl::StringStore(VM* vm)
 	}
 
 	Value val;
-	val.type = ValueType::STRING;
+	val.type = ValueType::V_STRING;
 	val.as.string = str;
 
 	vm->SetRegister(reg, val);
