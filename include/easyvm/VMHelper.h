@@ -42,7 +42,7 @@ public:
 			return nullptr;
 		}
 
-		if (val.type != evm::ValueType::V_HANDLE) {
+		if (val.type < evm::ValueType::V_HANDLE) {
 			vm->Error("The register doesn't contain a handler.");
 			return nullptr;
 		}

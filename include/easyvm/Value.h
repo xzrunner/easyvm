@@ -18,8 +18,6 @@ enum ValueType
 	V_STRING,
 
 	V_HANDLE = 16,
-
-//	ARRAY,
 };
 
 template<typename T>
@@ -42,10 +40,6 @@ struct Value
 		char*  string;
 		void*  handle;
 	} as;
-
-#ifdef _DEBUG
-	std::string handle_type;
-#endif // _DEBUG
 };
 
 }
