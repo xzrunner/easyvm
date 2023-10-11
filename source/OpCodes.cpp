@@ -16,7 +16,7 @@ void OpCodeImpl::func(VM* vm)								\
 	double src2 = VMHelper::GetRegNumber(vm, r_src2);		\
 															\
 	Value val;                                              \
-	val.type = ValueType::V_NUMBER;                           \
+	val.type = ValueType::V_NUMBER;                         \
 	val.as.number = src1 op src2;                           \
                                                             \
 	vm->SetRegister(r_dst, val);							\
