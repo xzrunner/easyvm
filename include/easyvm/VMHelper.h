@@ -1,5 +1,7 @@
 #pragma once
 
+#include "VM.h"
+
 #include <stdint.h>
 
 #include <memory>
@@ -36,9 +38,12 @@ public:
 	template<typename T>
 	static std::shared_ptr<T> GetRegHandler(evm::VM* vm, int reg)
 	{
+		if (reg < 0 || reg >= REGISTER_COUNT) {
+			return nullptr;
+		}
+
 		evm::Value val;
-		if (!vm->GetRegister(reg, val))
-		{
+		if (!vm->GetRegister(reg, val)) {
 			return nullptr;
 		}
 
