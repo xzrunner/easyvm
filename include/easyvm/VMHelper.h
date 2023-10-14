@@ -36,6 +36,12 @@ public:
 	static char*  GetRegString(VM* vm, int reg);
 
 	template<typename T>
+	static std::shared_ptr<T> GetHandleValue(const evm::Value& val)
+	{
+		return static_cast<evm::Handle<T>*>(val.as.handle)->obj;
+	}
+
+	template<typename T>
 	static std::shared_ptr<T> GetRegHandler(evm::VM* vm, int reg)
 	{
 		if (reg < 0 || reg >= REGISTER_COUNT) {
@@ -43,16 +49,16 @@ public:
 		}
 
 		evm::Value val;
-		if (!vm->GetRegister(reg, val)) {
+		if (vm->GetRegister(reg, val)) {
+			if (val.type >= evm::ValueType::V_HANDLE) {
+				return GetHandleValue<T>(val);
+			}
+		} else {
 			return nullptr;
 		}
 
-		if (val.type < evm::ValueType::V_HANDLE) {
-			vm->Error("The register doesn't contain a handler.");
-			return nullptr;
-		}
-
-		return static_cast<evm::Handle<T>*>(val.as.handle)->obj;
+		vm->Error("The reg handle fail!");
+		return nullptr;
 	}
 
 }; // VMHelper
