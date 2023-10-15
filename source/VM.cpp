@@ -6,9 +6,6 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-#define CHECK_REGISTER_BOUNDS(reg) \
-	assert(reg >= 0 && reg < REGISTER_COUNT);
-
 namespace
 {
 
@@ -71,9 +68,7 @@ void VM::Run()
 
 bool VM::GetRegister(int reg, Value& val)
 {
-    CHECK_REGISTER_BOUNDS(reg);
-
-    if (reg < 0 || reg > REGISTER_COUNT) 
+    if (reg < 0 || reg >= REGISTER_COUNT) 
     {
         return false;
     }
@@ -84,22 +79,23 @@ bool VM::GetRegister(int reg, Value& val)
     }
 }
 
-void VM::SetRegister(int reg, const Value& val)
+bool VM::SetRegister(int reg, const Value& val)
 {
-    CHECK_REGISTER_BOUNDS(reg);
-
-    if (reg >= 0 && reg < REGISTER_COUNT) 
+    if (reg < 0 || reg >= REGISTER_COUNT)
+    {
+        return false;
+    }
+    else
     {
         FreeReg(this, reg);
         m_registers[reg] = val;
+        return true;
     }
 }
 
 bool VM::MoveRegister(int reg, Value& val)
 {
-    CHECK_REGISTER_BOUNDS(reg);
-
-    if (reg < 0 || reg > REGISTER_COUNT)
+    if (reg < 0 || reg >= REGISTER_COUNT)
     {
         return false;
     }

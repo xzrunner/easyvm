@@ -20,7 +20,7 @@ public:
 	void Run();
 
 	bool GetRegister(int reg, Value& val);
-	void SetRegister(int reg, const Value& val);
+	bool SetRegister(int reg, const Value& val);
 	bool MoveRegister(int reg, Value& val);
 
 	void NextInst();
