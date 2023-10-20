@@ -25,7 +25,7 @@ public:
 
 	void NextInst();
 	unsigned char NextByte();
-	void JumpTo(unsigned int ip);
+	void Jump(int offset);
 
 	void Error(const char* msg);
 

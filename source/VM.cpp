@@ -129,9 +129,11 @@ unsigned char VM::NextByte()
     return m_code[m_ip];
 }
 
-void VM::JumpTo(unsigned int ip) 
-{ 
-    m_ip = ip; 
+void VM::Jump(int offset)
+{
+    int pos = m_ip + offset;
+    pos = std::max(0, std::min(pos, static_cast<int>(m_size)));
+    m_ip = pos;
 }
 
 void VM::Error(const char* msg)

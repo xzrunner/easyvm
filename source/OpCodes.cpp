@@ -155,12 +155,12 @@ void OpCodeImpl::Cmp(VM* vm)
 
 void OpCodeImpl::JumpIfNot(VM* vm)
 {
-	uint32_t offset = VMHelper::ReadData<uint32_t>(vm);
+	int offset = VMHelper::ReadData<int>(vm);
 	uint8_t r_bool = vm->NextByte();
 
 	bool b = VMHelper::GetRegBool(vm, r_bool);
 	if (!b) {
-		vm->JumpTo(offset - 1);
+		vm->Jump(offset - 6);
 	}
 }
 
