@@ -41,14 +41,24 @@ VM::VM(const char* code, size_t size)
 	InitOpcodes();
 }
 
-void VM::Run()
+void VM::Run(int begin, int end)
 {
-    m_ip = 0;
+    if (end == 0) {
+        end = m_size;
+    } else {
+        end = std::min(static_cast<size_t>(end), m_size);
+    }
+
+    if (begin >= end) {
+        return;
+    }
+
+    m_ip = begin;
 
     int iterations = 0;
     while (m_running)
     {
-        if (m_ip >= m_size) {
+        if (m_ip >= end) {
             break;
         }
 
@@ -58,7 +68,7 @@ void VM::Run()
             m_opcodes[opcode](this);
         }
 
-        if (m_ip == m_size - 1) {
+        if (m_ip == end - 1) {
             break;
         }
 

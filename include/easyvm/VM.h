@@ -17,7 +17,7 @@ class VM
 public:
 	VM(const char* code, size_t size);
 
-	void Run();
+	void Run(int begin = 0, int end = 0);
 
 	bool GetRegister(int reg, Value& val);
 	bool SetRegister(int reg, const Value& val);
