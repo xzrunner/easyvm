@@ -26,6 +26,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\OpCodes.cpp" />
+    <ClCompile Include="..\..\..\source\Value.cpp" />
     <ClCompile Include="..\..\..\source\VM.cpp" />
     <ClCompile Include="..\..\..\source\VMHelper.cpp" />
   </ItemGroup>

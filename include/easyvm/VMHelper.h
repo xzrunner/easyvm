@@ -11,7 +11,7 @@ namespace evm
 {
 
 class VM;
-struct Value;
+class Value;
 
 class VMHelper
 {
@@ -48,17 +48,13 @@ public:
 			return nullptr;
 		}
 
-		evm::Value val;
-		if (vm->GetRegister(reg, val)) {
-			if (val.type >= evm::ValueType::V_HANDLE) {
-				return GetHandleValue<T>(val);
-			}
+		auto& val = vm->GetRegister(reg);
+		if (val.type >= evm::ValueType::V_HANDLE) {
+			return GetHandleValue<T>(val);
 		} else {
+			vm->Error("Is not a handler!");
 			return nullptr;
 		}
-
-		vm->Error("The reg handle fail!");
-		return nullptr;
 	}
 
 }; // VMHelper

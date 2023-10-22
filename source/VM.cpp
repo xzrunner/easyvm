@@ -1,35 +1,7 @@
 #include "easyvm/VM.h"
 #include "easyvm/OpCodes.h"
 
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-
-namespace
-{
-
-void FreeReg(evm::VM* vm, uint8_t reg)
-{
-    evm::Value val;
-	if (!vm->GetRegister(reg, val)) {
-		vm->Error("Error reg.");
-		return;
-	}
-
-	if (val.type == evm::ValueType::V_STRING && val.as.string) 
-    {
-		delete(val.as.string);
-        val.as.string = nullptr;
-	} 
-    else if (val.type >= evm::ValueType::V_HANDLE && val.as.handle)
-    {
-		delete(val.as.handle);
-        val.as.handle = nullptr;
-	}
-}
-
-}
+#include <stdexcept>
 
 namespace evm
 {
@@ -76,50 +48,21 @@ void VM::Run(int begin, int end)
     }
 }
 
-bool VM::GetRegister(int reg, Value& val)
+const Value& VM::GetRegister(int reg) const
 {
-    if (reg < 0 || reg >= REGISTER_COUNT) 
-    {
-        return false;
-    }
-    else
-    {
-        val = m_registers[reg];
-        return true;
+    if (reg < 0 || reg >= REGISTER_COUNT) {
+        throw std::runtime_error("Error reg!");
+    } else {
+        return m_registers[reg];
     }
 }
 
-bool VM::SetRegister(int reg, const Value& val)
+void VM::SetRegister(int reg, const Value& val)
 {
-    if (reg < 0 || reg >= REGISTER_COUNT)
-    {
-        return false;
-    }
-    else
-    {
-        FreeReg(this, reg);
+    if (reg < 0 || reg >= REGISTER_COUNT) {
+        throw std::runtime_error("Error reg!");
+    } else {
         m_registers[reg] = val;
-        return true;
-    }
-}
-
-bool VM::MoveRegister(int reg, Value& val)
-{
-    if (reg < 0 || reg >= REGISTER_COUNT)
-    {
-        return false;
-    }
-    else
-    {
-        val = m_registers[reg];
-
-        if (m_registers[reg].type == ValueType::V_STRING) {
-            m_registers[reg].as.string = nullptr;
-        } else if (m_registers[reg].type >= ValueType::V_HANDLE) {
-            m_registers[reg].as.handle = nullptr;
-        }
-
-        return true;
     }
 }
 

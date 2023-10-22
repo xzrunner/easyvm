@@ -19,9 +19,8 @@ public:
 
 	void Run(int begin = 0, int end = 0);
 
-	bool GetRegister(int reg, Value& val);
-	bool SetRegister(int reg, const Value& val);
-	bool MoveRegister(int reg, Value& val);
+	const Value& GetRegister(int reg) const;
+	void SetRegister(int reg, const Value& val);
 
 	void NextInst();
 	unsigned char NextByte();

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <functional>
 
 #ifdef _DEBUG
 #include <string>
@@ -30,8 +31,17 @@ struct Handle
 	std::shared_ptr<T> obj = nullptr;
 };
 
-struct Value
+class Value
 {
+public:
+	Value();
+	~Value();
+	Value(const Value& v);
+	Value& operator = (const Value& v);
+
+	static void SetFreeCb(std::function<void(Value& val)> cb) { free_cb = cb; }
+
+public:
 	int type = ValueType::V_NIL;
 	union
 	{
@@ -40,6 +50,14 @@ struct Value
 		char*  string;
 		void*  handle;
 	} as;
+
+private:
+	void Reset();
+	void Free();
+
+private:
+	static std::function<void(Value& val)> free_cb;
+
 };
 
 }

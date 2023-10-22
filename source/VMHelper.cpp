@@ -6,50 +6,35 @@ namespace evm
 
 bool VMHelper::GetRegBool(VM* vm, int reg)
 {
-	Value val;
-	if (!vm->GetRegister(reg, val)) {
-		vm->Error("Error reg.");
-		return false;
-	}
-
-	if (val.type != ValueType::V_BOOLEAN) {
+	auto& val = vm->GetRegister(reg);
+	if (val.type == ValueType::V_BOOLEAN) {
+		return val.as.boolean;
+	} else {
 		vm->Error("The register doesn't contain a boolean.");
 		return false;
 	}
-
-	return val.as.boolean;
 }
 
 double VMHelper::GetRegNumber(VM* vm, int reg)
 {
-	Value val;
-	if (!vm->GetRegister(reg, val)) {
-		vm->Error("Error reg.");
-		return 0.0;
-	}
-
-	if (val.type != ValueType::V_NUMBER) {
+	auto& val = vm->GetRegister(reg);
+	if (val.type == ValueType::V_NUMBER) {
+		return val.as.number;
+	} else {
 		vm->Error("The register doesn't contain a number.");
-		return 0.0;
+		return 0;
 	}
-
-	return val.as.number;
 }
 
 char* VMHelper::GetRegString(VM* vm, int reg)
 {
-	Value val;
-	if (!vm->GetRegister(reg, val)) {
-		vm->Error("Error reg.");
-		return nullptr;
-	}
-
-	if (val.type != ValueType::V_STRING) {
+	auto& val = vm->GetRegister(reg);
+	if (val.type == ValueType::V_STRING) {
+		return val.as.string;
+	} else {
 		vm->Error("The register doesn't contain a string.");
 		return nullptr;
 	}
-
-	return val.as.string;
 }
 
 }
