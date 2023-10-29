@@ -12,8 +12,8 @@ void OpCodeImpl::func(VM* vm)								\
 	uint8_t r_src1 = vm->NextByte();						\
 	uint8_t r_src2 = vm->NextByte();						\
 															\
-	double src1 = VMHelper::GetRegNumber(vm, r_src1);		\
-	double src2 = VMHelper::GetRegNumber(vm, r_src2);		\
+	t_num src1 = VMHelper::GetRegNumber(vm, r_src1);		\
+	t_num src2 = VMHelper::GetRegNumber(vm, r_src2);		\
 															\
 	Value val;                                              \
 	val.type = ValueType::V_NUMBER;                         \
@@ -80,7 +80,7 @@ void OpCodeImpl::NumberStore(VM* vm)
 
 	Value val;
 	val.type = ValueType::V_NUMBER;
-	val.as.number = VMHelper::ReadData<double>(vm);
+	val.as.number = VMHelper::ReadData<t_num>(vm);
 
 	vm->SetRegister(reg, val);
 }
@@ -88,7 +88,7 @@ void OpCodeImpl::NumberStore(VM* vm)
 void OpCodeImpl::NumberPrint(VM* vm)
 {
 	uint8_t reg = vm->NextByte();
-	double val = VMHelper::GetRegNumber(vm, reg);
+	t_num val = VMHelper::GetRegNumber(vm, reg);
 	printf("%f", val);
 }
 
@@ -97,7 +97,7 @@ void OpCodeImpl::NumberNegate(VM* vm)
 	uint8_t r_dst = vm->NextByte();
 
 	uint8_t r_src = vm->NextByte();
-	double num = VMHelper::GetRegNumber(vm, r_src);
+	t_num num = VMHelper::GetRegNumber(vm, r_src);
 
 	Value val;
 	val.type = ValueType::V_NUMBER;
@@ -115,7 +115,7 @@ void OpCodeImpl::Inc(VM* vm)
 {
 	uint8_t r_num = vm->NextByte();
 
-	double num = VMHelper::GetRegNumber(vm, r_num);
+	t_num num = VMHelper::GetRegNumber(vm, r_num);
 
 	Value val;
 	val.type = ValueType::V_NUMBER;
@@ -128,7 +128,7 @@ void OpCodeImpl::Dec(VM* vm)
 {
 	uint8_t r_num = vm->NextByte();
 
-	double num = VMHelper::GetRegNumber(vm, r_num);
+	t_num num = VMHelper::GetRegNumber(vm, r_num);
 
 	Value val;
 	val.type = ValueType::V_NUMBER;
@@ -143,8 +143,8 @@ void OpCodeImpl::Cmp(VM* vm)
 	uint8_t r_src1 = vm->NextByte();
 	uint8_t r_src2 = vm->NextByte();
 
-	double src1 = VMHelper::GetRegNumber(vm, r_src1);
-	double src2 = VMHelper::GetRegNumber(vm, r_src2);
+	t_num src1 = VMHelper::GetRegNumber(vm, r_src1);
+	t_num src2 = VMHelper::GetRegNumber(vm, r_src2);
 
 	Value val;
 	val.type = ValueType::V_BOOLEAN;

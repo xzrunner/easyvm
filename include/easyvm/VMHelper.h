@@ -31,9 +31,9 @@ public:
 		return ret;
 	}
 
-	static bool   GetRegBool(VM* vm, int reg);
-	static double GetRegNumber(VM* vm, int reg);
-	static char*  GetRegString(VM* vm, int reg);
+	static bool  GetRegBool(VM* vm, int reg);
+	static t_num GetRegNumber(VM* vm, int reg);
+	static char* GetRegString(VM* vm, int reg);
 
 	template<typename T>
 	static std::shared_ptr<T> GetHandleValue(const evm::Value& val)

@@ -15,7 +15,7 @@ bool VMHelper::GetRegBool(VM* vm, int reg)
 	}
 }
 
-double VMHelper::GetRegNumber(VM* vm, int reg)
+t_num VMHelper::GetRegNumber(VM* vm, int reg)
 {
 	auto& val = vm->GetRegister(reg);
 	if (val.type == ValueType::V_NUMBER) {

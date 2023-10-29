@@ -7,6 +7,14 @@
 #include <string>
 #endif // _DEBUG
 
+#define EVM_SINGLE_PRECISION
+
+#ifdef EVM_SINGLE_PRECISION
+typedef float t_num;
+#else
+typedef double t_num;
+#endif // SINGLE_PRECISION
+
 namespace evm
 {
 
@@ -45,10 +53,10 @@ public:
 	int type = ValueType::V_NIL;
 	union
 	{
-		bool   boolean;
-		double number;
-		char*  string;
-		void*  handle;
+		bool  boolean;
+		t_num number;
+		char* string;
+		void* handle;
 	} as;
 
 private:
