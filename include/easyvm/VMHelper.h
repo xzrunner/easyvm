@@ -49,7 +49,9 @@ public:
 		}
 
 		auto& val = vm->GetRegister(reg);
-		if (val.type >= evm::ValueType::V_HANDLE) {
+		if (val.type == evm::ValueType::V_NIL) {
+			return nullptr;
+		} else if (val.type >= evm::ValueType::V_HANDLE) {
 			return GetHandleValue<T>(val);
 		} else {
 			vm->Error("Is not a handler!");

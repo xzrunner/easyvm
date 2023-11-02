@@ -18,7 +18,9 @@ bool VMHelper::GetRegBool(VM* vm, int reg)
 t_num VMHelper::GetRegNumber(VM* vm, int reg)
 {
 	auto& val = vm->GetRegister(reg);
-	if (val.type == ValueType::V_NUMBER) {
+	if (val.type == ValueType::V_NIL) {
+		return 0;
+	} else if (val.type == ValueType::V_NUMBER) {
 		return val.as.number;
 	} else {
 		vm->Error("The register doesn't contain a number.");
