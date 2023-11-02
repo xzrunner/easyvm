@@ -9,6 +9,8 @@ enum OpCode
 {
 	OP_EXIT = 0,
 
+	OP_MOVE_VAL,
+
 	OP_BOOL_STORE,
 	OP_BOOL_PRINT,
 
@@ -26,6 +28,8 @@ enum OpCode
 
 	OP_CMP,
 
+	OP_JUMP,
+	OP_JUMP_IF,
 	OP_JUMP_IF_NOT,
 
 	OP_STRING_STORE,
@@ -41,6 +45,8 @@ public:
 
 private:
 	static void Exit(VM* vm);
+
+	static void MoveVal(VM* vm);
 
 	static void BoolStore(VM* vm);
 	static void BoolPrint(VM* vm);
@@ -59,6 +65,8 @@ private:
 
 	static void Cmp(VM* vm);
 
+	static void Jump(VM* vm);
+	static void JumpIf(VM* vm);
 	static void JumpIfNot(VM* vm);
 
 	static void StringStore(VM* vm);

@@ -28,6 +28,7 @@ namespace evm
 void OpCodeImpl::OpCodeInit(VM* vm)
 {
 	vm->RegistOperator(OP_EXIT, Exit);
+	vm->RegistOperator(OP_MOVE_VAL, MoveVal);
 
 	vm->RegistOperator(OP_BOOL_STORE, BoolStore);
 	vm->RegistOperator(OP_BOOL_PRINT, BoolPrint);
@@ -45,6 +46,8 @@ void OpCodeImpl::OpCodeInit(VM* vm)
 	vm->RegistOperator(OP_DEC, Dec);
 
 	vm->RegistOperator(OP_CMP, Cmp);
+	vm->RegistOperator(OP_JUMP, Jump);
+	vm->RegistOperator(OP_JUMP_IF, JumpIf);
 	vm->RegistOperator(OP_JUMP_IF_NOT, JumpIfNot);
 
 	vm->RegistOperator(OP_STRING_STORE, StringStore);
@@ -54,6 +57,22 @@ void OpCodeImpl::OpCodeInit(VM* vm)
 void OpCodeImpl::Exit(VM* vm)
 {
 	vm->Stop();
+}
+
+void OpCodeImpl::MoveVal(VM* vm)
+{
+	uint8_t r_dst = vm->NextByte();
+	uint8_t r_src = vm->NextByte();
+
+	if (r_src == 0xff) 
+	{
+		vm->SetRegister(r_dst, Value());
+	}
+	else
+	{
+		auto& val = vm->GetRegister(r_src);
+		vm->SetRegister(r_dst, val);
+	}
 }
 
 void OpCodeImpl::BoolStore(VM* vm)
@@ -151,6 +170,23 @@ void OpCodeImpl::Cmp(VM* vm)
 	val.as.boolean = src1 == src2;
 
 	vm->SetRegister(r_dst, val);
+}
+
+void OpCodeImpl::Jump(VM* vm)
+{
+	int offset = VMHelper::ReadData<int>(vm);
+	vm->Jump(offset - 5);
+}
+
+void OpCodeImpl::JumpIf(VM* vm)
+{
+	int offset = VMHelper::ReadData<int>(vm);
+	uint8_t r_bool = vm->NextByte();
+
+	bool b = VMHelper::GetRegBool(vm, r_bool);
+	if (b) {
+		vm->Jump(offset - 6);
+	}
 }
 
 void OpCodeImpl::JumpIfNot(VM* vm)
