@@ -28,14 +28,20 @@ namespace evm
 void OpCodeImpl::OpCodeInit(VM* vm)
 {
 	vm->RegistOperator(OP_EXIT, Exit);
+
+	vm->RegistOperator(OP_IS_NIL, IsNil);
 	vm->RegistOperator(OP_MOVE_VAL, MoveVal);
 
 	vm->RegistOperator(OP_BOOL_STORE, BoolStore);
 	vm->RegistOperator(OP_BOOL_PRINT, BoolPrint);
+	vm->RegistOperator(OP_AND, And);
+	vm->RegistOperator(OP_OR, Or);
 
 	vm->RegistOperator(OP_NUMBER_STORE, NumberStore);
 	vm->RegistOperator(OP_NUMBER_PRINT, NumberPrint);
 	vm->RegistOperator(OP_NUMBER_NEGATE, NumberNegate);
+
+	vm->RegistOperator(OP_SQRT, Sqrt);
 
 	vm->RegistOperator(OP_ADD, Add);
 	vm->RegistOperator(OP_SUB, Sub);
@@ -45,7 +51,9 @@ void OpCodeImpl::OpCodeInit(VM* vm)
 	vm->RegistOperator(OP_INC, Inc);
 	vm->RegistOperator(OP_DEC, Dec);
 
-	vm->RegistOperator(OP_CMP, Cmp);
+	vm->RegistOperator(OP_EQUAL, Equal);
+	vm->RegistOperator(OP_LESS, Less);
+
 	vm->RegistOperator(OP_JUMP, Jump);
 	vm->RegistOperator(OP_JUMP_IF, JumpIf);
 	vm->RegistOperator(OP_JUMP_IF_NOT, JumpIfNot);
@@ -57,6 +65,25 @@ void OpCodeImpl::OpCodeInit(VM* vm)
 void OpCodeImpl::Exit(VM* vm)
 {
 	vm->Stop();
+}
+
+void OpCodeImpl::IsNil(VM* vm)
+{
+	uint8_t r_dst = vm->NextByte();
+	uint8_t r_src = vm->NextByte();
+
+	bool is_nil = true;
+	if (r_src != 0xff)
+	{
+		auto& val = vm->GetRegister(r_src);
+		is_nil = val.type == V_NIL;
+	}
+
+	Value val;
+	val.type = ValueType::V_BOOLEAN;
+	val.as.boolean = is_nil;
+
+	vm->SetRegister(r_dst, val);
 }
 
 void OpCodeImpl::MoveVal(VM* vm)
@@ -93,6 +120,38 @@ void OpCodeImpl::BoolPrint(VM* vm)
 	printf("%d", val);
 }
 
+void OpCodeImpl::And(VM* vm)
+{
+	uint8_t r_dst = vm->NextByte();
+	uint8_t r_src1 = vm->NextByte();
+	uint8_t r_src2 = vm->NextByte();
+
+	bool src1 = r_src1 == 0xff ? false : VMHelper::GetRegBool(vm, r_src1);
+	bool src2 = r_src2 == 0xff ? false : VMHelper::GetRegBool(vm, r_src2);
+
+	Value val;
+	val.type = ValueType::V_BOOLEAN;
+	val.as.boolean = src1 && src2;
+
+	vm->SetRegister(r_dst, val);
+}
+
+void OpCodeImpl::Or(VM* vm)
+{
+	uint8_t r_dst = vm->NextByte();
+	uint8_t r_src1 = vm->NextByte();
+	uint8_t r_src2 = vm->NextByte();
+
+	bool src1 = r_src1 == 0xff ? false : VMHelper::GetRegBool(vm, r_src1);
+	bool src2 = r_src2 == 0xff ? false : VMHelper::GetRegBool(vm, r_src2);
+
+	Value val;
+	val.type = ValueType::V_BOOLEAN;
+	val.as.boolean = src1 || src2;
+
+	vm->SetRegister(r_dst, val);
+}
+
 void OpCodeImpl::NumberStore(VM* vm)
 {
 	uint8_t reg = vm->NextByte();
@@ -121,6 +180,20 @@ void OpCodeImpl::NumberNegate(VM* vm)
 	Value val;
 	val.type = ValueType::V_NUMBER;
 	val.as.number = -num;
+
+	vm->SetRegister(r_dst, val);
+}
+
+void OpCodeImpl::Sqrt(VM* vm)
+{
+	uint8_t r_dst = vm->NextByte();
+
+	uint8_t r_src = vm->NextByte();
+	t_num num = VMHelper::GetRegNumber(vm, r_src);
+
+	Value val;
+	val.type = ValueType::V_NUMBER;
+	val.as.number = sqrt(num);
 
 	vm->SetRegister(r_dst, val);
 }
@@ -156,7 +229,7 @@ void OpCodeImpl::Dec(VM* vm)
 	vm->SetRegister(r_num, val);
 }
 
-void OpCodeImpl::Cmp(VM* vm)
+void OpCodeImpl::Equal(VM* vm)
 {
 	uint8_t r_dst = vm->NextByte();
 	uint8_t r_src1 = vm->NextByte();
@@ -168,6 +241,22 @@ void OpCodeImpl::Cmp(VM* vm)
 	Value val;
 	val.type = ValueType::V_BOOLEAN;
 	val.as.boolean = src1 == src2;
+
+	vm->SetRegister(r_dst, val);
+}
+
+void OpCodeImpl::Less(VM* vm)
+{
+	uint8_t r_dst = vm->NextByte();
+	uint8_t r_src1 = vm->NextByte();
+	uint8_t r_src2 = vm->NextByte();
+
+	t_num src1 = VMHelper::GetRegNumber(vm, r_src1);
+	t_num src2 = VMHelper::GetRegNumber(vm, r_src2);
+
+	Value val;
+	val.type = ValueType::V_BOOLEAN;
+	val.as.boolean = src1 < src2;
 
 	vm->SetRegister(r_dst, val);
 }

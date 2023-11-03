@@ -7,7 +7,9 @@ namespace evm
 bool VMHelper::GetRegBool(VM* vm, int reg)
 {
 	auto& val = vm->GetRegister(reg);
-	if (val.type == ValueType::V_BOOLEAN) {
+	if (val.type == ValueType::V_NIL) {
+		return false;
+	} else if (val.type == ValueType::V_BOOLEAN) {
 		return val.as.boolean;
 	} else {
 		vm->Error("The register doesn't contain a boolean.");
