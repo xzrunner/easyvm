@@ -263,29 +263,29 @@ void OpCodeImpl::Less(VM* vm)
 
 void OpCodeImpl::Jump(VM* vm)
 {
-	int offset = VMHelper::ReadData<int>(vm);
-	vm->Jump(offset - 5);
+	int ptr = VMHelper::ReadData<int>(vm);
+	vm->JumpTo(ptr - 1);
 }
 
 void OpCodeImpl::JumpIf(VM* vm)
 {
-	int offset = VMHelper::ReadData<int>(vm);
+	int ptr = VMHelper::ReadData<int>(vm);
 	uint8_t r_bool = vm->NextByte();
 
 	bool b = VMHelper::GetRegBool(vm, r_bool);
 	if (b) {
-		vm->Jump(offset - 6);
+		vm->JumpTo(ptr - 1);
 	}
 }
 
 void OpCodeImpl::JumpIfNot(VM* vm)
 {
-	int offset = VMHelper::ReadData<int>(vm);
+	int ptr = VMHelper::ReadData<int>(vm);
 	uint8_t r_bool = vm->NextByte();
 
 	bool b = VMHelper::GetRegBool(vm, r_bool);
 	if (!b) {
-		vm->Jump(offset - 6);
+		vm->JumpTo(ptr - 1);
 	}
 }
 
