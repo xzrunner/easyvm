@@ -29,6 +29,7 @@ void OpCodeImpl::OpCodeInit(VM* vm)
 {
 	vm->RegistOperator(OP_EXIT, Exit);
 
+	vm->RegistOperator(OP_SET_NIL, SetNil);
 	vm->RegistOperator(OP_IS_NIL, IsNil);
 	vm->RegistOperator(OP_MOVE_VAL, MoveVal);
 
@@ -65,6 +66,14 @@ void OpCodeImpl::OpCodeInit(VM* vm)
 void OpCodeImpl::Exit(VM* vm)
 {
 	vm->Stop();
+}
+
+void OpCodeImpl::SetNil(VM* vm)
+{
+	uint8_t r_dst = vm->NextByte();
+
+	Value val;
+	vm->SetRegister(r_dst, val);
 }
 
 void OpCodeImpl::IsNil(VM* vm)

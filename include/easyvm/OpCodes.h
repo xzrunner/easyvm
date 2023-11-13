@@ -9,6 +9,7 @@ enum OpCode
 {
 	OP_EXIT = 0,
 
+	OP_SET_NIL,
 	OP_IS_NIL,
 	OP_MOVE_VAL,
 
@@ -53,6 +54,7 @@ public:
 private:
 	static void Exit(VM* vm);
 
+	static void SetNil(VM* vm);
 	static void IsNil(VM* vm);
 
 	static void MoveVal(VM* vm);
