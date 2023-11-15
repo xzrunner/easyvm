@@ -29,8 +29,11 @@ void OpCodeImpl::OpCodeInit(VM* vm)
 {
 	vm->RegistOperator(OP_EXIT, Exit);
 
+	vm->RegistOperator(OP_COMMENTS, Comments);
+
 	vm->RegistOperator(OP_SET_NIL, SetNil);
 	vm->RegistOperator(OP_IS_NIL, IsNil);
+
 	vm->RegistOperator(OP_MOVE_VAL, MoveVal);
 
 	vm->RegistOperator(OP_BOOL_STORE, BoolStore);
@@ -66,6 +69,14 @@ void OpCodeImpl::OpCodeInit(VM* vm)
 void OpCodeImpl::Exit(VM* vm)
 {
 	vm->Stop();
+}
+
+void OpCodeImpl::Comments(VM* vm)
+{
+	uint16_t len = VMHelper::ReadData<uint16_t>(vm);
+	for (size_t i = 0; i < len; ++i) {
+		vm->NextByte();
+	}
 }
 
 void OpCodeImpl::SetNil(VM* vm)
